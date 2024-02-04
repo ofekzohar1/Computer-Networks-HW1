@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 """
-Instantiation of 'numbers' server using the numbers_api.
+Instantiation of 'numbers' server using the numbers_API.
 Made by Ofek Zohar (312490402).
 """
 
@@ -11,8 +11,8 @@ import struct
 import sys
 import logging
 
-from numbers_api import API_HEADER, AUTH_SEP, APIError, APIRequest, APIResponse, MathOp
-import numbers_api as numAPI
+from numbers_API import API_HEADER, AUTH_SEP, APIError, APIRequest, APIResponse, MathOp
+import numbers_API as numAPI
 
 ################################ Constants ################################
 
