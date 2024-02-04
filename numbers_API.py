@@ -268,7 +268,7 @@ class NumAPIClient:
                 bytes_to_read = res_msg_len - buffer if res_msg_len != -1 else DEFAULT_BYTES_RECV
 
                 data = self.client_soc.recv(bytes_to_read)
-                if not data:
+                if not data:  # Empty msg == server closed the connection
                     raise NumServerError(APIError.UNEXPECTED, "Disconnected from server.")
 
                 buffer += data

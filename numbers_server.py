@@ -336,7 +336,7 @@ def main():
     global num_server  # num_server is global to access through signal_handler
     
     # Uncomment below to see the logs in console 
-    logging.basicConfig(level=logging.DEBUG)
+    # logging.basicConfig(level=logging.DEBUG)
 
     # Read cl args
     port = DEFAULT_PORT

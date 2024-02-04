@@ -87,7 +87,7 @@ def client_loop(numClient: numAPI.NumAPIClient):
         except numAPI.NumServerError as e:  # Server returned an error response
             print(e)
             break
-        except ValueError:
+        except ValueError:  # user input error (e.g float instead of int)
             print(f"Invalid command argument.")
             break
 
