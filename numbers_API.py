@@ -247,8 +247,11 @@ class NumAPIClient:
         """
         msg = struct.pack(API_HEADER, req_id.value, length) + payload
         try:
+            print("before send")
             self.client_soc.sendall(msg)
+            print("after send")
         except socket.error:
+            print("catch error")
             raise NumServerError(APIError.UNEXPECTED, "Disconnected from server.")
 
     def _recvall(self) -> Tuple[APIResponse, bytes]:
