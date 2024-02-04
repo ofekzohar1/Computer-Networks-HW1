@@ -342,6 +342,7 @@ def main():
     port = DEFAULT_PORT
     if len(sys.argv) < 2:
         print("missing users credentials file argument.")
+        sys.exit(1)
     if len(sys.argv) >= 3:
         port = int(sys.argv[2])
     user_cred_file = sys.argv[1]
