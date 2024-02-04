@@ -87,6 +87,10 @@ def client_loop(numClient: numAPI.NumAPIClient):
         except numAPI.NumServerError as e:  # Server returned an error response
             print(e)
             break
+        except ValueError:
+            print(f"Invalid command argument.")
+            break
+
 
 def string_cut(s: str, sep: str=COMMAND_SEP) -> Tuple[str, str]:
     """Cuts the provided string into 2 parts around the provided separation chars.
