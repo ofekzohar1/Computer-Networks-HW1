@@ -36,6 +36,7 @@ The protocol header contains of fixed 3 bytes:
 * 2nd+3rd bytes: payload length in bytes, which can be varied depends on the request type.
     * Thus the maximum msg size is 3+2^16=65539 (header size + max payload)
 * The protocol can be **extended** easily, if necessary, by adding special request type adding more header bytes, and still be compatible with the old protocol.
+* All numbers in the msg encoded into network Byte-order (e.g payload_length, num argument)
 
 ## Protocol Supported Requests (client->server)
 
