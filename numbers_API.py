@@ -270,7 +270,9 @@ class NumAPIClient:
                 # Bytes left to read. If unknown, use DEFAULT_BYTES_RECV.
                 bytes_to_read = res_msg_len - buffer if res_msg_len != -1 else DEFAULT_BYTES_RECV
 
+                print("before recv")
                 buffer += self.client_soc.recv(bytes_to_read)
+                print("after recv")
                 if res_msg_len == -1:
                     res_msg_len = required_res_length(buffer)  # Get the right msg length
 
@@ -282,6 +284,7 @@ class NumAPIClient:
         except ValueError:  # Unrecognized response type
             raise NumServerError(APIError.INVALID_FORMAT.value, "Unrecognized response type.")
         except socket.error:  # Connection issue
+            print("server disconnect")
             raise NumServerError(APIError.UNEXPECTED, "Disconnected from server.")
 
     def _send_and_recv_all(self, req_id: APIRequest, payload: bytes, length: int=0) -> Tuple[APIResponse, bytes]:
