@@ -5,6 +5,7 @@ Made by Ofek Zohar (312490402).
 """
 
 import sys
+from typing import Tuple
 import numbers_API as numAPI
 
 ################################ Constants ################################
@@ -87,7 +88,7 @@ def client_loop(numClient: numAPI.NumAPIClient):
             print(e)
             break
 
-def string_cut(s: str, sep: str=COMMAND_SEP) -> tuple[str, str]:
+def string_cut(s: str, sep: str=COMMAND_SEP) -> Tuple[str, str]:
     """Cuts the provided string into 2 parts around the provided separation chars.
 
     Args:
@@ -95,7 +96,7 @@ def string_cut(s: str, sep: str=COMMAND_SEP) -> tuple[str, str]:
         sep (`str`, optional): The separator. Defaults to COMMAND_SEP.
 
     Returns:
-        tuple[`str`, `str`]: (before_sep_str, after_sep_str). If s doesn't contain the sep chars, return (s, "").
+        Tuple[`str`, `str`]: (before_sep_str, after_sep_str). If s doesn't contain the sep chars, return (s, "").
     """
     tokens = s.split(sep, 1)
     if len(tokens) < 2:

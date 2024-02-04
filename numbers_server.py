@@ -10,6 +10,7 @@ import select
 import struct
 import sys
 import logging
+from typing import Tuple
 
 from numbers_API import API_HEADER, AUTH_SEP, APIError, APIRequest, APIResponse, MathOp
 import numbers_API as numAPI
@@ -46,8 +47,8 @@ class Server:
         listening_port (:obj:`str`): The server's listen port.
         listen_soc (:obj:`socket.socket`): The server listen socket.
         user_credentials_file (:obj:`str`): The path to the users credentials file.
-        user_credentials (dict[`str`, `str`]): username->password data structure.
-        client_sockets (dict[`socket.socket`, `OnlineClient`]): Maintain online clients. socket->OnlineClient data structure. 
+        user_credentials (Dict[`str`, `str`]): username->password data structure.
+        client_sockets (Dict[`socket.socket`, `OnlineClient`]): Maintain online clients. socket->OnlineClient data structure. 
     """
     def __init__(self, user_credentials_file, listening_host=DEFAULT_HOST, listening_port=DEFAULT_PORT) -> None:
         self.listening_host = listening_host
@@ -236,7 +237,7 @@ class Server:
 
         return struct.pack(API_HEADER, res_id.value, len(payload)) + payload
 
-    def handle_auth(self, client: OnlineClient, username: str, password: str) -> tuple[APIResponse, bytes]:
+    def handle_auth(self, client: OnlineClient, username: str, password: str) -> Tuple[APIResponse, bytes]:
         """Auth request handler. If auth succeeded response the authed username.
 
         Args:
@@ -245,7 +246,7 @@ class Server:
             password (`str`): The input password.
 
         Returns:
-            tuple[APIResponse, bytes]: (response type, response msg). If request failed (ERROR, ERROR TYPE).
+            Tuple[APIResponse, bytes]: (response type, response msg). If request failed (ERROR, ERROR TYPE).
         """
         payload = b""
         if username in self.user_credentials and self.user_credentials[username] == password:
@@ -258,7 +259,7 @@ class Server:
 
         return APIResponse.AUTH, payload
 
-    def handle_calculate(self, op: MathOp, num1: int, num2: int) -> tuple[APIResponse, bytes]:
+    def handle_calculate(self, op: MathOp, num1: int, num2: int) -> Tuple[APIResponse, bytes]:
         """Calculate request handler (num1 op num2).
 
         Args:
@@ -267,7 +268,7 @@ class Server:
             num2 (`int`): The second operand.
 
         Returns:
-            tuple[`APIResponse`, `bytes`]: (response type, response msg). If request failed (ERROR, ERROR TYPE).
+            Tuple[`APIResponse`, `bytes`]: (response type, response msg). If request failed (ERROR, ERROR TYPE).
         """
         result = 0
         try:
@@ -286,28 +287,28 @@ class Server:
 
         return APIResponse.CALCULATE, struct.pack(numAPI.CALCULATE_RESPONSE_FORMAT, result)
 
-    def handle_is_palindrome(self, num: int) -> tuple[APIResponse, bytes]:
+    def handle_is_palindrome(self, num: int) -> Tuple[APIResponse, bytes]:
         """is palindrome handler. response True if num is a palindrome.
 
         Args:
             num (`int`): The number in question.
 
         Returns:
-            tuple[`APIResponse`, `bytes`]: (response type, response msg). If request failed (ERROR, ERROR TYPE).
+            Tuple[`APIResponse`, `bytes`]: (response type, response msg). If request failed (ERROR, ERROR TYPE).
         """
         str_num = str(num)  # string representation of the number
         is_palindrome = str_num == str_num[::-1]  # num is palindrome iff num == rev(num)
 
         return APIResponse.IS_PALINDROME, struct.pack(numAPI.BOOL_RESPONSE_FORMAT, is_palindrome)
 
-    def handle_is_primary(self, num: int) -> tuple[APIResponse, bytes]:
+    def handle_is_primary(self, num: int) -> Tuple[APIResponse, bytes]:
         """is primary handler. response True if num is a prime number.
 
         Args:
             num (`int`): The number in question.
 
         Returns:
-            tuple[`APIResponse`, `bytes`]: (response type, response msg). If request failed (ERROR, ERROR TYPE).
+            Tuple[`APIResponse`, `bytes`]: (response type, response msg). If request failed (ERROR, ERROR TYPE).
         """
         is_prime = True
 

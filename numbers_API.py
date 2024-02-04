@@ -6,7 +6,7 @@ Made by Ofek Zohar (312490402).
 import socket
 import struct
 from enum import Enum
-from typing import Any
+from typing import Any, Tuple, List
 
 ################################ Constants ################################
 
@@ -143,7 +143,7 @@ class NumAPIClient:
         self.client_soc.close()
         self.client_soc = None
 
-    def auth(self, username: str, password: str) -> tuple[bool, str]:
+    def auth(self, username: str, password: str) -> Tuple[bool, str]:
         """Authentication request to the server.
 
         Args:
@@ -154,7 +154,7 @@ class NumAPIClient:
             `NumServerError`: Connection issue or API error.
 
         Returns:
-            tuple[`bool`, `str`]: (True, username) if succeeded, otherwise (False, "").
+            Tuple[`bool`, `str`]: (True, username) if succeeded, otherwise (False, "").
         """
         # concat username and password separated by AUTH_SEP
         msg = AUTH_SEP.join([username, password])
@@ -251,14 +251,14 @@ class NumAPIClient:
         except socket.error:
             raise NumServerError(APIError.UNEXPECTED, "Disconnected from server.")
 
-    def _recvall(self) -> tuple[APIResponse, bytes]:
+    def _recvall(self) -> Tuple[APIResponse, bytes]:
         """Recv the whole response msg from the server.
 
         Raises:
             `NumServerError`: Connection issue or unrecognized response type.
 
         Returns:
-            tuple[`APIResponse`, `bytes`]: (response type, response payload)
+            Tuple[`APIResponse`, `bytes`]: (response type, response payload)
         """
         buffer = b""
         res_msg_len = -1  # Flag: before reading the header.
@@ -281,7 +281,7 @@ class NumAPIClient:
         except socket.error:  # Connection issue
             raise NumServerError(APIError.UNEXPECTED, "Disconnected from server.")
 
-    def _send_and_recv_all(self, req_id: APIRequest, payload: bytes, length: int=0) -> tuple[APIResponse, bytes]:
+    def _send_and_recv_all(self, req_id: APIRequest, payload: bytes, length: int=0) -> Tuple[APIResponse, bytes]:
         """Send request & Receive response wrapper.
 
         Args:
@@ -293,7 +293,7 @@ class NumAPIClient:
             `NumServerError`: Connection issue or unrecognized response type.
 
         Returns:
-            tuple[`APIResponse`, `bytes`]: (response type, response payload)
+            Tuple[`APIResponse`, `bytes`]: (response type, response payload)
         """
         self._sendall(req_id, payload, length)
         res_id, response = self._recvall()
@@ -307,7 +307,7 @@ class NumAPIClient:
 
 ################################ Handlers ################################
 
-def unpack_req(msg_buffer: bytes) -> tuple[APIRequest, list[Any]]:
+def unpack_req(msg_buffer: bytes) -> Tuple[APIRequest, List[Any]]:
     """Unpack the request bytes message.
 
     Args:
@@ -317,7 +317,7 @@ def unpack_req(msg_buffer: bytes) -> tuple[APIRequest, list[Any]]:
         `NumServerError`: Unsupported request type.
 
     Returns:
-        tuple[`APIRequest`, list[`Any`]]: (request type, [arguments list])
+        Tuple[`APIRequest`, List[`Any`]]: (request type, [arguments list])
     """
     req_id, _ = struct.unpack(API_HEADER, msg_buffer[:API_HEADER_SIZE])
     try:
